@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CapitalActivity extends AppCompatActivity {
+public class    CapitalActivity extends AppCompatActivity {
 
     private TextView tvMessage;
 

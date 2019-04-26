@@ -9,20 +9,25 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String countries[] = {
-            "Nepal", "Kathmandu",
-            "India", "Dehli",
-            "China", "Beijing",
-            "USA", "D.C.",
-            "Uk", "London",
-            "Canada", "Ottawa"
-    };
+//    public static final String countries[] = {
+//            "Nepal", "Kathmandu",
+//            "India", "Dehli",
+//            "China", "Beijing",
+//            "USA", "D.C.",
+//            "Uk", "London",
+//            "Canada", "Ottawa"
+//    };
 
     private Map<String,String> dictionary;
 
@@ -34,9 +39,11 @@ public class MainActivity extends AppCompatActivity {
         ListView country = findViewById(R.id.country);
 
         dictionary = new HashMap<>();
-        for (int i=0; i<countries.length; i+=2){
-            dictionary.put(countries[i],countries[i+1]);
-        }
+
+        readFromFile();
+//        for (int i=0; i<countries.length; i+=2){
+//            dictionary.put(countries[i],countries[i+1]);
+//        }
 
         ArrayAdapter countryAdapter = new ArrayAdapter<>(
                 this,
@@ -57,4 +64,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void readFromFile(){
+
+        try {
+            FileInputStream  fos = openFileInput("words.txt");
+            InputStreamReader isr = new InputStreamReader(fos);
+            BufferedReader br = new BufferedReader(isr);
+            String line = "";
+            while ((line=br.readLine())!= null){
+                String[] parts = line.split("->");
+                dictionary.put(parts[0], parts[1]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }
